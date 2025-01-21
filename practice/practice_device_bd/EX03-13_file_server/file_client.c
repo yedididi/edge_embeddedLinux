@@ -32,9 +32,37 @@ int main(int argc, char **argv)
 	}
 
 	/* Implement code */
+	id_msg = msgget((key_t)KEY_MSG, 0666|IPC_CREAT);
+	if (id_msg == -1)
+	{
+		printf("[%d] error: %s (%d)\n", pid, strerror(errno), __LINE__);
+		return (EXIT_FAILURE);
+	}
 
+	msgbuf.mtype = 1;
+	msgbuf.fname = argv[1];
+	msgbuf.pid = pid;
 
-	printf("[%d] terminted\n", pid);
+	ret = msgsnd(id_msg, (void *)&msgbuf, sizeof(struct msg_buf) - sizeof(long), 0);
+	if(ret == -1) {
+		printf("[%d] error: %s (%d)\n", pid, strerror(errno), __LINE__);
+		return EXIT_FAILURE;
+	}
+
+	ret = msgrcv(id_msg, (void *)&msgbuf, sizeof(struct msg_buf) - sizeof(long), pid, 0);
+	if(ret == -1) {
+		printf("[%d] error: %s (%d)\n", pid, strerror(errno), __LINE__);
+		return EXIT_FAILURE;
+	}
+
+	if (msgbuf.valid == 0)
+		printf("file does not exist\n");
+	else
+	{
+		printf("this is the message\n");
+		printf("fname:%s\nsize:%d\nmode:%d\n", msgbuf.fname, msgbuf.size, msgbuf.mode);
+	}
+	printf("[%d] terminated\n", pid);
 
 	return EXIT_SUCCESS;
 }
