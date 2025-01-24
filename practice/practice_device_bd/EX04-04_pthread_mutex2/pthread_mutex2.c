@@ -23,7 +23,8 @@ void *thread_func1(void *arg)
 		if (g_count == max)
 		{
 			pthread_mutex_unlock(&g_mutex);
-			break;
+			printf("[%d] thread2 counted %d\n", pid, count);
+			pthread_exit(NULL);
 		}
 
 		temp = g_count;
@@ -47,7 +48,8 @@ void *thread_func2(void *arg)
 		if (g_count == max)
 		{
 			pthread_mutex_unlock(&g_mutex);
-			break;
+			printf("[%d] thread2 counted %d\n", pid, count);
+			pthread_exit(NULL);
 		}
 
 		temp = g_count;
