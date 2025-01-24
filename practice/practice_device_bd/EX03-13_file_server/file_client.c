@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
@@ -40,7 +41,7 @@ int main(int argc, char **argv)
 	}
 
 	msgbuf.mtype = 1;
-	msgbuf.fname = argv[1];
+	strcpy(msgbuf.fname, argv[1]);
 	msgbuf.pid = pid;
 
 	ret = msgsnd(id_msg, (void *)&msgbuf, sizeof(struct msg_buf) - sizeof(long), 0);
@@ -59,8 +60,7 @@ int main(int argc, char **argv)
 		printf("file does not exist\n");
 	else
 	{
-		printf("this is the message\n");
-		printf("fname:%s\nsize:%d\nmode:%d\n", msgbuf.fname, msgbuf.size, msgbuf.mode);
+		printf("fname:%s\nsize:%d\nmode:%o\n", msgbuf.fname, (int)msgbuf.size, (int)msgbuf.mode);
 	}
 	printf("[%d] terminated\n", pid);
 

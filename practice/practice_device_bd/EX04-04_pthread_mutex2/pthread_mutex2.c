@@ -23,7 +23,7 @@ void *thread_func1(void *arg)
 		if (g_count == max)
 		{
 			pthread_mutex_unlock(&g_mutex);
-			return;
+			return NULL;
 		}
 
 		temp = g_count;
@@ -47,7 +47,7 @@ void *thread_func2(void *arg)
 		if (g_count == max)
 		{
 			pthread_mutex_unlock(&g_mutex);
-			return;
+			return NULL;
 		}
 
 		temp = g_count;
