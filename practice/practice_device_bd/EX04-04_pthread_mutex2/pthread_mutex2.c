@@ -20,7 +20,11 @@ void *thread_func1(void *arg)
 		pthread_mutex_lock(&g_mutex);
 
 		/* Implement code */
-
+		if (g_count == max)
+		{
+			pthread_mutex_unlock(&g_mutex);
+			return;
+		}
 
 		temp = g_count;
 		usleep(1);
@@ -40,7 +44,11 @@ void *thread_func2(void *arg)
 		pthread_mutex_lock(&g_mutex);
 
 		/* Implement code */
-
+		if (g_count == max)
+		{
+			pthread_mutex_unlock(&g_mutex);
+			return;
+		}
 
 		temp = g_count;
 		usleep(1);
