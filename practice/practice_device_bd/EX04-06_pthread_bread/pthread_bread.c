@@ -27,11 +27,13 @@ void *thread_maker(void *arg)
 
 	/* Implement code */
 	for (;;) {
-		//pthread_mutex_lock(&bread_mutex);
-		usleep(400000 * id);
-		bread_count++;
-		printf("[T%d] bread %3d\n", id, bread_count);
-		//pthread_mutex_unlock(&bread_mutex);
+		pthread_mutex_lock(&bread_mutex);
+		if (bread_count < 100) {
+			usleep(400000 * id);
+			bread_count++;
+			printf("[T%d] bread %3d\n", id, bread_count);
+		}
+		pthread_mutex_unlock(&bread_mutex);
 		if (bread_count >= 100)
 			break;
 	}
