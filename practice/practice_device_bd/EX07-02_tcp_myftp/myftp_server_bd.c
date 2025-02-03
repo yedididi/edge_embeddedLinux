@@ -57,7 +57,7 @@ void process_command(int sfd_client)
 			/* Implement code: call write() */
 
 			get_pwd(tbuf);
-			char *tmp = strdup("ok", tbuf);
+			char *tmp = strjoin("ok", tbuf);
 			// wbuf = strcat("ok", tbuf);
 			write(sfd_client, tmp, strlen(tmp));
 			free(tmp);
