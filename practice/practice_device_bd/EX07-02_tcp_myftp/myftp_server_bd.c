@@ -82,8 +82,10 @@ void process_command(int sfd_client)
 			printf("pwd recved\n");
 			get_pwd(tbuf);
 			char *tmp = strjoin("ok ", getcwd(0, sizeof(char) * 1024));
-			write(sfd_client, tmp, strlen(tmp));
+			char *tmp2 = strjoin(tmp, "\n");
+			write(sfd_client, tmp2, strlen(tmp2));
 			free(tmp);
+			free(tmp2);
 		}
 	}
 }
