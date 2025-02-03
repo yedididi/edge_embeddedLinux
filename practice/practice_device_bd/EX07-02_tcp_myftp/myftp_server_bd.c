@@ -81,9 +81,9 @@ void process_command(int sfd_client)
 			/* Implement code: call write() */
 			printf("pwd recved\n");
 			get_pwd(tbuf);
-			char *tmp = strjoin("ok", tbuf);
-			// wbuf = strcat("ok", tbuf);
+			char *tmp = strjoin("ok ", tbuf);
 			write(sfd_client, tmp, strlen(tmp));
+			write(sfd_client, "\n", 1);
 			free(tmp);
 		}
 	}
