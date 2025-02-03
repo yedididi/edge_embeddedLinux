@@ -106,12 +106,14 @@ int send_path(int peer, char *file)
 	int fd = open(file, O_RDONLY, 00700);
 	if (fd == -1)
 		printf("open error\n");
+	printf("before while\n");
 	while (1)
 	{
 		char buf[1024];
 		int ret = read(fd, buf, 1024);
 		if (ret == 0)
 			break;
+		printf("this is read ret:%d\n", ret);
 		wr_len += ret;
 		char *tmp = strdup(strcat(wr_buf, buf));
 		free(wr_buf);
