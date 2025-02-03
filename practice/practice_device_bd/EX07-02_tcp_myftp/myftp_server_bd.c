@@ -69,15 +69,16 @@ void process_command(int sfd_client)
 
 		printf("[%d] received: %s", pid, rbuf);
 
-		if(strcmp(rbuf, "quit\r\n") == 0) {
+		if(strcmp(rbuf, "QUIT\r\n") == 0) {
 			/* Implement code: call write() */
+			printf("quit recved\n");
 			write(sfd_client, "OK", 2);
 
 			return;
 		}
-		else if(strcmp(rbuf, "pwd\r\n") == 0) {
+		else if(strcmp(rbuf, "PWD\r\n") == 0) {
 			/* Implement code: call write() */
-
+			printf("pwd recved\n");
 			get_pwd(tbuf);
 			char *tmp = strjoin("ok", tbuf);
 			// wbuf = strcat("ok", tbuf);
