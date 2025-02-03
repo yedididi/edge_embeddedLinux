@@ -59,6 +59,7 @@ void process_command(int sfd_client)
 
 	for(;;) {
 		/* Implement code: call read() */
+		printf("before read\n");
 		len = read(sfd_client, rbuf, MAX_RBUF - 1);
 		if (len <= 0) {
 			close(sfd_client);
