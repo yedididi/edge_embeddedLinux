@@ -32,7 +32,7 @@ void *thread_maker(void *arg)
 		bread_count++;
 		printf("[T%d] bread %3d\n", id, bread_count);
 		//pthread_mutex_unlock(&bread_mutex);
-		if (bread_count == 100)
+		if (bread_count >= 100)
 			break;
 	}
 }
@@ -55,7 +55,6 @@ void *thread_boxer(void *arg)
 		if (box_count == 10)
 			break;
 	}
-
 }
 
 void *(*thread_func[NUM_OF_THREAD])(void *arg) = {
