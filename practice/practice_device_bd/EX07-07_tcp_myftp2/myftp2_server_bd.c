@@ -102,6 +102,7 @@ int send_path(int peer, char *file)
 	int wr_len = 0;
 	char *wr_buf = 0;
 	file[strlen(file) - 2] = '\0';
+	printf("this is file:%s\n", file);
 	while (1)
 	{
 		char buf[1024];
