@@ -93,23 +93,27 @@ int send_file(int peer, FILE *f)
 	if (rtn > 0)
 		printf("READ: %s\n", buff);
 	write(peer, buff, rtn);
+	return (0);
 }
 
 int send_path(int peer, char *file)
 {
 	/* Implement code */
-	char *wr_buf;
+	int wr_len = 0;
+	char *wr_buf = 0;
 	file[strlen(file) - 2] = '\0';
 	while (1)
 	{
 		char buf[1024];
 		int fd = open(file, O_RDONLY, 00700);
 		int ret = read(fd, buf, 1024);
+		wr_len += ret;
 		char *tmp = strdup(strcat(wr_buf, buf));
 		free(wr_buf);
 		wr_buf = tmp;
 	}
-	write(peer, wr_buf, strlen(wr_buf));
+	write(peer, wr_buf, wr_len);
+	return (0);
 }
 
 int get_pwd(char *buf)
@@ -144,7 +148,7 @@ void process_command(int sfd_client)
 	char rbuf[MAX_RBUF];
 	char wbuf[MAX_WBUF];
 	char tbuf[MAX_TBUF];
-	char fbuf[MAX_FBUF];
+	//char fbuf[MAX_FBUF];
 	int len;
 	int exit_flag = 0;
 
@@ -218,7 +222,7 @@ void process_command(int sfd_client)
 			int data_client = -1;
 			struct sockaddr_in data_client_addr;
 			socklen_t data_client_len = sizeof(data_client_addr);
-			FILE *p1;
+			//FILE *p1;
 
 			while (retry--) {
 				data_port = (rand() % 64512 + 1024);
