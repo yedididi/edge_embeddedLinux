@@ -24,6 +24,27 @@
 typedef void (*sighandler_t)(int);
 pid_t pid;
 
+char	*strjoin(char const *s1, char const *s2)
+{
+	int		i;
+	int		s1_len;
+	int		s2_len;
+	char	*return_str;
+
+	i = 0;
+	s1_len = strlen(s1);
+	s2_len = strlen(s2);
+	return_str = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
+	if (return_str == 0)
+		return (0);
+	while (*s1)
+		return_str[i++] = *s1++;
+	while (*s2)
+		return_str[i++] = *s2++;
+	return_str[i] = '\0';
+	return (return_str);
+}
+
 int new_server(unsigned int inaddr, unsigned short port, int backlog)
 {
 	int server;
@@ -66,14 +87,21 @@ int new_server(unsigned int inaddr, unsigned short port, int backlog)
 int send_file(int peer, FILE *f)
 {
 	/* Implement code */
-
-
+	char buff[2048 + 1];
+	int rtn = fread(buff, sizeof(char), sizeof(buff), f);
+	if (rtn > 0)
+		printf("READ: %s\n", buff);
+	write(peer, buff, rtn);
 }
 
 int send_path(int peer, char *file)
 {
 	/* Implement code */
-
+	while (1)
+	{
+		// int fd = open(file, O_RDONLY, )
+		// int ret = read()
+	}
 
 }
 
@@ -177,7 +205,48 @@ void process_command(int sfd_client)
 		}
 		else if(strncmp(rbuf, "GET ", 4) == 0) {
 			/* Implement code */
+			int retry = 100;
+			unsigned short data_port;
+			int data_server;
+			int data_client = -1;
+			struct sockaddr_in data_client_addr;
+			socklen_t data_client_len = sizeof(data_client_addr);
+			FILE *p1;
 
+			while (retry--) {
+				data_port = (rand() % 64512 + 1024);
+				data_server = new_server(INADDR_ANY, data_port, 1);
+				if (data_server >= 0) break;
+			}
+			if (data_server < 0) {
+				sprintf(wbuf, "ERR\r\n");
+				write(sfd_client, wbuf, strlen(wbuf));
+				continue;
+			} else {
+				sprintf(wbuf, "OK %u\r\n", data_port);
+				write(sfd_client, wbuf, strlen(wbuf));
+			}
+
+			data_client = accept(data_server, (struct sockaddr *)&data_client_addr, &data_client_len);
+			if(data_client == -1) {
+				close(data_server);
+				printf("[%d] error: %s (%d)\n", pid, strerror(errno), __LINE__);
+				return;
+			}
+
+			// send_file(data_client, &(rbuf[4]));
+			char *tmp = strjoin("cat ", &(rbuf[4]));
+			p1 = popen(tmp, "r");
+			free(tmp);
+			send_file(data_client, p1);
+			pclose(p1);
+			usleep(100000); // wait until the client receives all data
+			close(data_client);
+
+			sprintf(wbuf, "OK\r\n");
+			write(sfd_client, wbuf, strlen(wbuf));
+
+			close(data_server);
 
 		}
 
