@@ -46,6 +46,7 @@ void *thread_boxer(void *arg)
 	/* Implement code */
 	for (;;) {
 		pthread_mutex_lock(&bread_mutex);
+		sleep(5);
 		if (bread_count  >= 10) {
 			printf("[T%d] box %2d\n", id, box_count);
 			box_count++;
