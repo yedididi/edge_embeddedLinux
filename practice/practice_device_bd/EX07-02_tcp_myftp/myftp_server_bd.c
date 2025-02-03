@@ -29,6 +29,27 @@ int get_pwd(char *buf)
 
 }
 
+char	*strjoin(char const *s1, char const *s2)
+{
+	int		i;
+	int		s1_len;
+	int		s2_len;
+	char	*return_str;
+
+	i = 0;
+	s1_len = strlen(s1);
+	s2_len = strlen(s2);
+	return_str = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
+	if (return_str == 0)
+		return (0);
+	while (*s1)
+		return_str[i++] = *s1++;
+	while (*s2)
+		return_str[i++] = *s2++;
+	return_str[i] = '\0';
+	return (return_str);
+}
+
 void process_command(int sfd_client)
 {
 	char rbuf[MAX_RBUF];
