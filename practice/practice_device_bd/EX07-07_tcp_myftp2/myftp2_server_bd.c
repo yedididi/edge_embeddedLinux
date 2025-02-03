@@ -235,6 +235,7 @@ void process_command(int sfd_client)
 			}
 
 			// send_file(data_client, &(rbuf[4]));
+			printf("%s\n", &(rbuf[4]));
 			char *tmp = strjoin("cat ", &(rbuf[4]));
 			p1 = popen(tmp, "r");
 			free(tmp);
