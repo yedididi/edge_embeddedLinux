@@ -27,11 +27,11 @@ void *thread_maker(void *arg)
 
 	/* Implement code */
 	for (;;) {
-		pthread_mutex_lock(&bread_mutex);
+		//pthread_mutex_lock(&bread_mutex);
 		usleep(400000 * id);
 		printf("[T%d] bread %3d\n", id, bread_count);
 		bread_count++;
-		pthread_mutex_unlock(&bread_mutex);
+		//pthread_mutex_unlock(&bread_mutex);
 		if (box_count == 10)
 			exit(0);
 	}
@@ -45,13 +45,13 @@ void *thread_boxer(void *arg)
 
 	/* Implement code */
 	for (;;) {
-		pthread_mutex_lock(&bread_mutex);
+		//pthread_mutex_lock(&bread_mutex);
 		if (bread_count  >= 10) {
 			sleep(5);
 			printf("[T%d] box %2d\n", id, box_count);
 			box_count++;
 		}
-		pthread_mutex_unlock(&bread_mutex);
+		//pthread_mutex_unlock(&bread_mutex);
 		if (box_count == 10)
 			exit(0);
 	}
