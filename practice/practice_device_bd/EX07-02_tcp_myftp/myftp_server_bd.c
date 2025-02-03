@@ -67,6 +67,7 @@ void process_command(int sfd_client)
 			break;
 		}
 
+		rbuf[len] = '\0';
 		printf("[%d] received: %s", pid, rbuf);
 
 		if(strcmp(rbuf, "QUIT\r\n") == 0) {
