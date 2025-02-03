@@ -97,12 +97,18 @@ int send_file(int peer, FILE *f)
 int send_path(int peer, char *file)
 {
 	/* Implement code */
+	char *wr_buf;
+	file[strlen(file) - 2] = '\0';
 	while (1)
 	{
-		// int fd = open(file, O_RDONLY, )
-		// int ret = read()
+		char buf[1024];
+		int fd = open(file, O_RDONLY, 00700);
+		int ret = read(fd, buf, 1024);
+		char *tmp = strdup(strcat(wr_buf, buf));
+		free(wr_buf);
+		wr_buf = tmp;
 	}
-
+	write(peer, wr_buf, strlen(wr_buf));
 }
 
 int get_pwd(char *buf)
@@ -236,17 +242,18 @@ void process_command(int sfd_client)
 
 			// send_file(data_client, &(rbuf[4]));
 
-			printf("%s's length is:%ld\n", &(rbuf[4]), strlen(&(rbuf[4])));
-			char *fileName;
-			strcpy(fileName, &(rbuf[4]));
-			fileName[strlen(&(rbuf[4]))] = '\0';
+			// printf("%s's length is:%ld\n", &(rbuf[4]), strlen(&(rbuf[4])));
+			// char *fileName;
+			// strcpy(fileName, &(rbuf[4]));
+			// fileName[strlen(&(rbuf[4]))] = '\0';
 
-			printf("this is fileName:%s's length:%ld", fileName, strlen(fileName));
-			char *tmp = strjoin("cat ", fileName);
-			p1 = popen(tmp, "r");
-			free(tmp);
-			send_file(data_client, p1);
-			pclose(p1);
+			// printf("this is fileName:%s's length:%ld", fileName, strlen(fileName));
+			// char *tmp = strjoin("cat ", fileName);
+			// p1 = popen(tmp, "r");
+			// free(tmp);
+			// send_file(data_client, p1);
+			//pclose(p1);
+			send_path(data_client, &(rbuf[4]));
 			usleep(100000); // wait until the client receives all data
 			close(data_client);
 
