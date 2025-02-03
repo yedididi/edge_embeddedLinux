@@ -38,20 +38,11 @@ void process_command(int sfd_client)
 
 	for(;;) {
 		/* Implement code: call read() */
-		len = read(sfd_client, rbuf, MAX_BUF-1);
+		len = read(sfd_client, rbuf, MAX_RBUF - 1);
 		if (len <= 0) {
 			close(sfd_client);
 			printf("[%d] closed\n", pid);
 			break;
-		}
-
-
-		else {
-			buf[len] = 0;
-			printf("[%d] received: %s\n", pid, buf);
-
-			/* echo back */
-			write(sfd_client, buf, len);
 		}
 
 		printf("[%d] received: %s", pid, rbuf);
@@ -66,8 +57,10 @@ void process_command(int sfd_client)
 			/* Implement code: call write() */
 
 			get_pwd(tbuf);
-			wbuf = strcat("ok", tbuf);
-			write(sfd_client, wbuf, strlen(wbuf));
+			char *tmp = strdup("ok", tbuf);
+			// wbuf = strcat("ok", tbuf);
+			write(sfd_client, tmp, strlen(tmp));
+			free(tmp);
 		}
 	}
 }
