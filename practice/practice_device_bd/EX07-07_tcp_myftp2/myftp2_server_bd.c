@@ -237,8 +237,9 @@ void process_command(int sfd_client)
 			// send_file(data_client, &(rbuf[4]));
 
 			printf("%s's length is:%ld\n", &(rbuf[4]), strlen(&(rbuf[4])));
-
-			char *tmp = strjoin("cat ", &(rbuf[4]));
+			char *fileName;
+			strncpy(fileName, &(rbuf[4]), strlen(&(rbuf[4])) - 2);
+			char *tmp = strjoin("cat ", fileName);
 			p1 = popen(tmp, "r");
 			free(tmp);
 			send_file(data_client, p1);
