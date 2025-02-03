@@ -28,7 +28,7 @@ void *thread_maker(void *arg)
 	/* Implement code */
 	for (;;) {
 		pthread_mutex_lock(&bread_mutex);
-		usleep(700000);
+		usleep(400000 * id);
 		printf("[T%d] bread %3d\n", id, bread_count);
 		bread_count++;
 		pthread_mutex_unlock(&bread_mutex);
@@ -46,8 +46,8 @@ void *thread_boxer(void *arg)
 	/* Implement code */
 	for (;;) {
 		pthread_mutex_lock(&bread_mutex);
-		sleep(5);
 		if (bread_count  >= 10) {
+			sleep(5);
 			printf("[T%d] box %2d\n", id, box_count);
 			box_count++;
 		}
