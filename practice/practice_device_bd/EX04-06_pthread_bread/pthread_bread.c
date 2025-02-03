@@ -28,6 +28,7 @@ void *thread_maker(void *arg)
 	/* Implement code */
 	for (;;) {
 		pthread_mutex_lock(&bread_mutex);
+		usleep(700000);
 		printf("[T%d] bread %3d", id, bread_count);
 		bread_count++;
 		pthread_mutex_unlock(&bread_mutex);
