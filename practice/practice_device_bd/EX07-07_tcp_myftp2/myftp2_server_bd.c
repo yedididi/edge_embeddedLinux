@@ -10,6 +10,7 @@
 #include <arpa/inet.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <fcntl.h>
 
 #include "define.h"
 
