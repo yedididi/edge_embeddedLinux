@@ -238,7 +238,8 @@ void process_command(int sfd_client)
 
 			printf("%s's length is:%ld\n", &(rbuf[4]), strlen(&(rbuf[4])));
 			char *fileName;
-			strncpy(fileName, &(rbuf[4]), strlen(&(rbuf[4])) - 2);
+			strcpy(fileName, &(rbuf[4]));
+			fileName[strlen(&(rbuf[4])) - 2] = '\0';
 			char *tmp = strjoin("cat ", fileName);
 			p1 = popen(tmp, "r");
 			free(tmp);
