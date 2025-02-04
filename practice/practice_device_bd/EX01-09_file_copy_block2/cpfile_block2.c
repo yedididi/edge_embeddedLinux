@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 	}
 
 	struct stat *statBuf;
-	buf = fstat(src_fd, statBuf);
+	buf = fstat(src_fp, statBuf);
 	int srcFileSize = statBuf->st_size;
 	/* copy */
 	for(;;) {
