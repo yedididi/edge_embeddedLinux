@@ -194,6 +194,8 @@ void process_command(int sfd_client)
 	int wret = write(sfd_client, wbuf, 4);
 	if (wret != 4)
 		printf("write not complete\n");
+	else
+		printf("this is wret:%d\n", wret);
 	return (result);
 }
 
