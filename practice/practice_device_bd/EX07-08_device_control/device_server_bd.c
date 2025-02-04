@@ -189,16 +189,15 @@ void process_command(int sfd_client)
 			printf("inside RES_ERROR\n");
 			result = RES_ERROR;
 		}
-
+		printf("1\n");
+		*(signed int *)&wbuf[0] = htonl(result);
+		printf("before write\n");
+		int wret = write(sfd_client, wbuf, 4);
+		if (wret != 4)
+			printf("write not complete\n");
+		else
+			printf("this is wret:%d\n", wret);
 	}
-	printf("1\n");
-	*(signed int *)&wbuf[0] = htonl(result);
-	printf("before write\n");
-	int wret = write(sfd_client, wbuf, 4);
-	if (wret != 4)
-		printf("write not complete\n");
-	else
-		printf("this is wret:%d\n", wret);
 	return (result);
 }
 
