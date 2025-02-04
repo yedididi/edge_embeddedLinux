@@ -190,8 +190,8 @@ void process_command(int sfd_client)
 
 	}
 	// result = htonl(result);
-	*(unsigned int *)&wbuf[0] = htonl(result);
-	write(sfd_client, result, 1);
+	*(signed int *)&wbuf[0] = htonl(result);
+	write(sfd_client, wbuf, 1);
 	return (result);
 }
 
