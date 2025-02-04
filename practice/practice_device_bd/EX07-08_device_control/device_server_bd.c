@@ -147,12 +147,46 @@ void process_command(int sfd_client)
 
 	for(;;) {
 		rlen = read(sfd_client, rbuf, MAX_RBUF);
-		if(rlen <= 0) return;
+		if (rlen <= 0) return;
 
+		if (rlen != 8) continue;
 		/* Implement code */
-
+		id = ntohl(*(unsigned int *)&rbuf[0]);
+		cmd = ntohl(*(unsigned int *)&rbuf[4]);
+		result = RES_OK;
+		if (id == ID_LED)
+		{
+			if (cmd == CMD_LED_OFF)
+			{
+				result = do_led_on();
+			}
+			else if (cmd == CMD_LED_ON)
+			{
+				result = do_led_off();
+			}
+			else
+			{
+				result = RES_ERROR;
+			}
+		}
+		else if (id == ID_KEY)
+		{	
+			if (cmd == CMD_KEY_STATUS)
+			{
+				result = get_key_status();
+			}
+			else
+			{
+				result = RES_ERROR;
+			}
+		}
+		else
+		{
+			result = RES_ERROR;
+		}
 
 	}
+	return (result);
 }
 
 int main(int argc, char **argv)
