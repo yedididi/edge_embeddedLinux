@@ -47,8 +47,8 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	struct stat *statBuf;
-	fstat(src_fp, statBuf);
+	struct stat *statBuf = 0;
+	stat(src_name, statBuf);
 	int srcFileSize = statBuf->st_size;
 	/* copy */
 	for(;;) {
