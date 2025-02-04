@@ -174,6 +174,7 @@ void process_command(int sfd_client)
 		}
 		else if (id == ID_KEY)
 		{	
+			printf("inside ID_KEY\n");
 			if (cmd == CMD_KEY_STATUS)
 			{
 				result = get_key_status();
@@ -185,11 +186,11 @@ void process_command(int sfd_client)
 		}
 		else
 		{
+			printf("inside RES_ERROR\n");
 			result = RES_ERROR;
 		}
 
 	}
-	// result = htonl(result);
 	printf("1\n");
 	*(signed int *)&wbuf[0] = htonl(result);
 	printf("before write\n");
