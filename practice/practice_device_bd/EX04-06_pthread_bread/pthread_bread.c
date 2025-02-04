@@ -31,11 +31,11 @@ void *thread_maker(void *arg)
 		pthread_mutex_lock(&bread_mutex);
 		printf("[T%d] thread, after mutex lock\n", id);
 		if (bread_count < 100) {
-			usleep(400000 * id);
 			bread_count++;
 			printf("[T%d] bread %3d\n", id, bread_count);
 		}
 		pthread_mutex_unlock(&bread_mutex);
+		usleep(400000 * id);
 		if (bread_count >= 100)
 			break;
 	}
