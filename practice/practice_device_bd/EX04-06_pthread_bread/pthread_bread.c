@@ -27,9 +27,7 @@ void *thread_maker(void *arg)
 
 	/* Implement code */
 	for (;;) {
-		printf("[T%d] thread, before mutex lock\n", id);
 		pthread_mutex_lock(&bread_mutex);
-		printf("[T%d] thread, after mutex lock\n", id);
 		if (bread_count < 100) {
 			bread_count++;
 			printf("[T%d] bread %3d\n", id, bread_count);
