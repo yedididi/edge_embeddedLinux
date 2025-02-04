@@ -191,7 +191,9 @@ void process_command(int sfd_client)
 	}
 	// result = htonl(result);
 	*(signed int *)&wbuf[0] = htonl(result);
-	write(sfd_client, wbuf, 4);
+	int wret = write(sfd_client, wbuf, 4);
+	if (wret != 4)
+		printf("write not complete\n");
 	return (result);
 }
 
