@@ -74,6 +74,7 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
+	printf("ok before for loop\n");
 	for(;;) {
 		/* Implement code: call recvfrom(), write_log(), sendto() */
 		addr_client_len = sizeof(addr_client);
@@ -81,8 +82,9 @@ int main(int argc, char **argv)
 		if(len > 0) {
 			buf[len] = 0;
 			
-			char *string = 0;
+			char string[64];
 			sprintf(string, "[%d] received: date = %s, msg = %s\n", pid, p_info->date, p_info->msg);
+			printf("%s\n", string);
 
 			write_log(string, "my.log");
 
