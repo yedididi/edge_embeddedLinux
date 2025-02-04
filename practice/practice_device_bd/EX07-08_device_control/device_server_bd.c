@@ -186,6 +186,8 @@ void process_command(int sfd_client)
 		}
 
 	}
+	result = htonl(result);
+	write(sfd_client, result, sizeof(result));
 	return (result);
 }
 
