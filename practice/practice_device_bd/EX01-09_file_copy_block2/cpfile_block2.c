@@ -47,10 +47,19 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
+	struct stat *statBuf;
+	buf = fstat(src_fd, statBuf);
+	int srcFileSize = statBuf->st_size;
 	/* copy */
 	for(;;) {
-		uret1 = fread(buf, 1, (size_t)block_size, src_fp);
-		if(uret1 < (size_t)block_size) {
+		int readNum;
+		if (srcFileSize >= block_size)
+			readNum = block_size;
+		else
+			readNum = srcFileSize;
+			
+		uret1 = fread(buf, readNum, 1, src_fp);
+		if(uret1 < readNum) {
 			if(feof(src_fp) != 0) {
 				eof_flag = 1;
 			}
@@ -60,7 +69,7 @@ int main(int argc, char **argv)
 			}
 		}
 
-		uret2 = fwrite(buf, 1, uret1, dst_fp);
+		uret2 = fwrite(buf, uret1, 1, dst_fp);
 		if(uret2 < uret1) {
 			printf("error: fwrite failed (%d)\n", __LINE__);
 			return EXIT_FAILURE;
