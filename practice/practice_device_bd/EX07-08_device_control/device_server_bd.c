@@ -189,8 +189,9 @@ void process_command(int sfd_client)
 		}
 
 	}
-	result = htonl(result);
-	write(sfd_client, result, sizeof(result));
+	// result = htonl(result);
+	*(unsigned int *)&wbuf[0] = htonl(result);
+	write(sfd_client, result, 1);
 	return (result);
 }
 
