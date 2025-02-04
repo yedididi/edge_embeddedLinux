@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 	socklen_t addr_client_len;
 	char buf[MAX_BUF];
 	info_t * p_info = (info_t *)buf;
-	char tbuf[MAX_BUF];
+	//char tbuf[MAX_BUF];
 
 	if(argc != 1) {
 		printf("usage: %s\n", argv[0]);
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
 		if(len > 0) {
 			buf[len] = 0;
 			
-			char *string;
+			char *string = 0;
 			sprintf(string, "[%d] received: date = %s, msg = %s\n", pid, p_info->date, p_info->msg);
 
 			write_log(string, "my.log");
