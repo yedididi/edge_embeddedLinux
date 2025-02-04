@@ -57,19 +57,44 @@ int main(int argc, char **argv)
 	printf("[%d] running %s\n", pid = getpid(), argv[0]);
 
 	/* Implement code: call socket() */
-
+	sfd = socket(AF_INET, SOCK_DGRAM, 0);
+	if(sfd == -1) {
+		printf("[%d] error: %s (%d)\n", pid, strerror(errno), __LINE__);
+		return EXIT_FAILURE;
+	}
 
 	/* Implement code: call bind() */
-
+	memset(&addr_server, 0, sizeof(addr_server));
+	addr_server.sin_family = AF_INET;
+	addr_server.sin_addr.s_addr = htonl(INADDR_ANY);
+	addr_server.sin_port = htons(SERVER_PORT);
+	ret = bind(sfd, (struct sockaddr *)&addr_server, sizeof(addr_server));
+	if(ret == -1) {
+		printf("[%d] error: %s (%d)\n", pid, strerror(errno), __LINE__);
+		return EXIT_FAILURE;
+	}
 
 	for(;;) {
 		/* Implement code: call recvfrom(), write_log(), sendto() */
+		addr_client_len = sizeof(addr_client);
+		len = recvfrom(sfd, buf, MAX_BUF-1, 0, (struct sockaddr *)&addr_client, &addr_client_len);
+		if(len > 0) {
+			buf[len] = 0;
+			
+			char *string;
+			sprintf(string, "[%d] received: date = %s, msg = %s\n", pid, p_info->date, p_info->msg);
 
+			write_log(string, "my.log");
+
+			/* send ok */
+			char sendStr[3] = "OK\0";
+			sendto(sfd, sendStr, len, 0,  (struct sockaddr *)&addr_client, sizeof(addr_client));
+		}
 
 	}
 
 	/* Implement code: call close() */
-
+	close(sfd);
 
 	printf("[%d] terminated\n", pid);
 

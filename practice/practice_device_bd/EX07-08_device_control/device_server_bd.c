@@ -157,46 +157,24 @@ void process_command(int sfd_client)
 		result = RES_OK;
 		if (id == ID_LED)
 		{
-			printf("inside ID_LED\n");
 			if (cmd == CMD_LED_OFF)
-			{
 				result = do_led_off();
-			}
 			else if (cmd == CMD_LED_ON)
-			{
 				result = do_led_on();
-				printf("after LED ON\n");
-			}
 			else
-			{
 				result = RES_ERROR;
-			}
 		}
 		else if (id == ID_KEY)
 		{	
-			printf("inside ID_KEY\n");
 			if (cmd == CMD_KEY_STATUS)
-			{
 				result = get_key_status();
-			}
 			else
-			{
 				result = RES_ERROR;
-			}
 		}
 		else
-		{
-			printf("inside RES_ERROR\n");
 			result = RES_ERROR;
-		}
-		printf("1\n");
-		*(signed int *)&wbuf[0] = htonl(result);
-		printf("before write\n");
+		*(unsigned int *)&wbuf[0] = htonl(result);
 		int wret = write(sfd_client, wbuf, 4);
-		if (wret != 4)
-			printf("write not complete\n");
-		else
-			printf("this is wret:%d\n", wret);
 	}
 	return (result);
 }
