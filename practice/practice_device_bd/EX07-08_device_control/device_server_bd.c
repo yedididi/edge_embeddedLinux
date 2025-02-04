@@ -145,6 +145,7 @@ void process_command(int sfd_client)
 	unsigned int id, cmd;
 	int result;
 
+	printf("inside prcess command\n");
 	for(;;) {
 		rlen = read(sfd_client, rbuf, MAX_RBUF);
 		if (rlen <= 0) return;
@@ -156,6 +157,7 @@ void process_command(int sfd_client)
 		result = RES_OK;
 		if (id == ID_LED)
 		{
+			printf("inside ID_LED\n");
 			if (cmd == CMD_LED_OFF)
 			{
 				result = do_led_on();
