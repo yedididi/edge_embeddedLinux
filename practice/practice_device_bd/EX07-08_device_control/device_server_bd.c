@@ -160,11 +160,12 @@ void process_command(int sfd_client)
 			printf("inside ID_LED\n");
 			if (cmd == CMD_LED_OFF)
 			{
-				result = do_led_on();
+				result = do_led_off();
 			}
 			else if (cmd == CMD_LED_ON)
 			{
-				result = do_led_off();
+				result = do_led_on();
+				printf("after LED ON\n");
 			}
 			else
 			{
