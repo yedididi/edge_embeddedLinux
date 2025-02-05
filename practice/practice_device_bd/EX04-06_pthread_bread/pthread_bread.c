@@ -31,9 +31,10 @@ void *thread_maker(void *arg)
 		if (bread_count < 100) {
 			bread_count++;
 			printf("[T%d] bread %3d\n", id, bread_count);
+			usleep(400000 * id);
 		}
 		pthread_mutex_unlock(&bread_mutex);
-		usleep(400000 * id);
+		//usleep(400000 * id);
 		if (bread_count >= 100)
 			break;
 	}

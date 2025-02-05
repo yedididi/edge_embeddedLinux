@@ -1,4 +1,4 @@
-#define SERVER_IP "192.168.0.78"
+#define SERVER_IP "10.10.141.206"
 #define SERVER_PORT 25000
 
 #define ID_UNKNOWN	0
